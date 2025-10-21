@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<title>Love Days</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{display:flex;height:100vh;justify-content:center;align-items:center;
+       background:linear-gradient(135deg,#ffeef8 0%, #fff0f8 100%);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","PingFang SC",sans-serif}
+  .card{background:rgba(255,255,255,.45);border-radius:20px;padding:10vw 8vw;
+        box-shadow:0 8px 32px rgba(255,0,102,.15);text-align:center}
+  #num{font-size:18vw;color:#ff0066;font-weight:700;line-height:1}
+  #label{font-size:5vw;color:#666;margin-top:1vh}
+  #date{font-size:3.2vw;color:#999;margin-top:3vh}
+  #heart{font-size:6vw;display:inline-block;animation:beat 1.2s infinite}
+  @keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div id="num"></div>
+  <div id="label">days together</div>
+  <div id="date"></div>
+  <div id="heart">💗</div>
+</div>
+<script>
+const day1 = new Date('2025-09-07T00:00:00');   // ← 改成你们自己的纪念日
+const today = new Date();
+const days = Math.floor((today - day1) / 86400000) + 1;
+document.getElementById('num').textContent = days;
+document.getElementById('date').textContent = today.toLocaleDateString('zh-CN');
+</script>
+</body>
+</html>
