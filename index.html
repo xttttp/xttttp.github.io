@@ -28,8 +28,16 @@
 const day1 = new Date('2025-09-07T00:00:00');   // ← 改成你们自己的纪念日
 const today = new Date();
 const days = Math.floor((today - day1) / 86400000) + 1;
+const goal = 365;
+const percent = (days / goal * 100).toFixed(3);
 document.getElementById('num').textContent = days;
 document.getElementById('date').textContent = today.toLocaleDateString('zh-CN');
+
+ // 动态插入进度条
+const bar = document.createElement('div');
+bar.style.cssText = `width:70vw;height:6px;background:#eee;border-radius:3px;margin:3vh auto 0;overflow:hidden`;
+bar.innerHTML = `<div style="width:${percent}%;height:100%;background:linear-gradient(90deg,#ff0066,#ff99cc);transition:width .8s"></div>`;
+document.querySelector('.card').appendChild(bar);
 </script>
 </body>
 </html>
