@@ -39,5 +39,84 @@ bar.style.cssText = `width:70vw;height:6px;background:#eee;border-radius:3px;mar
 bar.innerHTML = `<div style="width:${percent}%;height:100%;background:linear-gradient(90deg,#ff0066,#ff99cc);transition:width .8s"></div>`;
 document.querySelector('.card').appendChild(bar);
 </script>
+<!-- 叠层弹窗开始 -->
+<script>
+/* ====== 可随手改的参数 ====== */
+const POP_TEXT = [
+  '💞宝宝我在想你',
+  '今天也有偷偷喜欢你',
+  '多喝水，别熬夜',
+  '💝风很温柔，你也是',
+  '按时去吃饭',
+  '💕天造地设这一块',
+  '想你想你想你',
+  '出门要带伞',
+  '你是世界上最可爱最棒的的宝宝',
+  '等我等我等我',
+  '💗小瓶和小平',
+  '你想要的，我都想给你',
+  '注意穿搭，穿厚点',
+  '宝宝你今天辛苦了',
+  '💖我的北京兄弟',
+  '💞 永远',
+  '💖 爱你',
+  '❤️ 你是我爱的女孩，最爱的女孩'
+];
+const MAX_POP   = 120;        // 同时存在的最大弹窗数
+const LIFE      = 5000;      // 从出现到完全移除的时长（ms）
+const FADE_AFTER= 3000;       // 多久后开始淡出
+const FONT_SIZE = 18;        // 字号（px）
+
+/* ====== 逻辑代码 ====== */
+let curr = 0;
+function makePop(){
+  if(curr >= MAX_POP) return;   // 达到上限就停
+  curr++;
+
+  const div = document.createElement('div');
+  div.style.cssText = `
+    position:fixed;
+    left:${Math.random()*(window.innerWidth-150)}px;
+    top:${Math.random()*(window.innerHeight-60)}px;
+    padding:10px 18px;
+    font-size:${FONT_SIZE}px;
+    font-weight:bold;
+    color:#fff;
+    background:${'hsl('+Math.random()*360+',80%,60%)'};
+    border-radius:12px;
+    box-shadow:0 4px 14px rgba(0,0,0,.25);
+    z-index:${9999+curr};
+    transition:opacity .7s;
+    pointer-events:none;`;
+  div.textContent = POP_TEXT[Math.random()*POP_TEXT.length|0];
+  document.body.appendChild(div);
+
+  // 淡出→移除
+  setTimeout(()=>div.style.opacity=0,FADE_AFTER);
+  setTimeout(()=>{
+    div.remove();
+    curr--;
+  },LIFE);
+}
+
+// 页面加载完就开始
+window.addEventListener('load',()=>{
+  /* 1. 第一波连发 60 个 */
+  for(let i=0;i<MAX_POP;i++){
+    setTimeout(makePop,i*80);
+  }
+
+  /* 2. 不再补充 —— 把原来的 setInterval 删掉即可 */
+    // 之后持续补位，保持满屏
+  // setInterval(()=>{
+  //   if(curr<MAX_POP) makePop();
+  // },150);
+  /* 3. 如果想 10 秒后彻底熄火（可选），可再留一个保险 */
+  setTimeout(()=>{
+    console.log('弹窗全部结束，页面安静了~');
+  },LIFE+500);   // LIFE=2000，这里 2.5 秒后打印，仅作提示
+});
+</script>
+<!-- 叠层弹窗结束 -->
 </body>
 </html>
